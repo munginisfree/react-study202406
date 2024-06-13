@@ -16,7 +16,7 @@ const Counter = () => {
 
         // 상태값의 변경은 실시간으로 일어나지않음.
         // 해결방법: useEffect 훅으로 해결 (뒤에 배움)
-        
+
         console.log('변경 이후 값: ', count);
     };
     return (
