@@ -24,9 +24,14 @@ const App = () => {
         },
     ];
 
+    // ExpenseForm에게 내려보낼 함수
+    const onAddExpense = (userInput) => {
+        console.log('App.js가 내려보낸 함수 호출!');
+    };
+
    return(
        <>
-            <NewExpense/>
+            <NewExpense onSave={onAddExpense}/>
             <ExpenseList expenses={expenses}/>
 
        </>
