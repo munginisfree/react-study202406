@@ -37,7 +37,6 @@ const App = () => {
     // 배열을 상태변수로 관리
     const [expenseList, setExpenseList] = useState(expenses);
 
-
     // ExpenseForm에게 내려보낼 함수
     const onAddExpense = (userInput) => setExpenseList([...expenseList, userInput]);
 
