@@ -24,12 +24,12 @@ const ExpenseList = ({ expenses }) => {
 
             {expenses
                 .filter(ex=>ex.date.getFullYear().toString() === filteredYear.toString())
-                .map((ex) => (
+                .map(({title, price, date}) => (
                 <ExpenseItem
                     key={Math.random().toString()}
-                    title={ex.title}
-                    price={ex.price}
-                    date={ex.date}
+                    title={title}
+                    price={price}
+                    date={date}
                 />
             ))}
         </div>

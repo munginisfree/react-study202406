@@ -68,7 +68,10 @@ const ExpenseForm = ({onAdd}) => {
         // };
 
         console.log(userInput);
-        onAdd(userInput);
+        onAdd({
+            ...userInput,
+            date: new Date(userInput.date)
+        });
         // form input 비우기
         setUserInput({
             title: '',
