@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useRef, useState} from 'react';
 import styles from './AddUsers.module.css';
 import Card from '../UI/Card';
 import Button from '../UI/Button';
@@ -9,30 +9,40 @@ const AddUsers = ({ onAddUser }) => {
     // 에러 상태 관리 (에러 제목, 에러 내용)
     const [error, setError] = useState(null);
 
-    const [userValue, setUserValue] = useState({
-        username: '',
-        age: '',
-    });
+    // useRef로 DOM 조작하기
+    const usernameRef = useRef();
+    const ageRef = useRef();
 
-    const usernameChangeHandler = (e) => {
-        setUserValue((prevUserValue) => ({
-            ...prevUserValue,
-            username: e.target.value,
-        }));
-    };
+    console.log(usernameRef);
+    // const [userValue, setUserValue] = useState({
+    //     username: '',
+    //     age: '',
+    // });
 
-    const ageChangeHandler = (e) => {
-        setUserValue((prevUserValue) => ({
-            ...prevUserValue,
-            age: e.target.value,
-        }));
-    };
+    // const usernameChangeHandler = (e) => {
+    //     setUserValue((prevUserValue) => ({
+    //         ...prevUserValue,
+    //         username: e.target.value,
+    //     }));
+    // };
+
+    // const ageChangeHandler = (e) => {
+    //     setUserValue((prevUserValue) => ({
+    //         ...prevUserValue,
+    //         age: e.target.value,
+    //     }));
+    // };
 
     const userSubmitHandler = (e) => {
         e.preventDefault();
+        const userValue = {
+            username: usernameRef.current.value,
+            age: ageRef.current.value
+        };
 
+        const {username, age} =userValue;
         // 입력값 검증
-        if (userValue.username.trim() === '' || userValue.age.trim() === '') {
+        if (username.trim() === '' || age.trim() === '') {
             setError({
                 title: '유효하지 않은 입력값',
                 message: '입력값은 공백으로 작성하면 안됩니다.'
@@ -40,7 +50,7 @@ const AddUsers = ({ onAddUser }) => {
             return;
         }
 
-        if (+userValue.age < 1) {
+        if (+age < 1) {
             setError({
                 title: '유효하지 않은 나이 범위',
                 message: '나이는 0이나 음수가 될 수 없습니다.'
@@ -50,10 +60,12 @@ const AddUsers = ({ onAddUser }) => {
 
         onAddUser(userValue);
 
-        setUserValue({
-            username: '',
-            age: '',
-        });
+        usernameRef.current.value = '';
+        ageRef.current.value = '';
+        // setUserValue({
+        //     username: '',
+        //     age: '',
+        // });
     };
 
     // 하위 컴포넌트 ErrorModal에게 모달을 닫는 조건을 수행하는 함수 전달
@@ -70,15 +82,17 @@ const AddUsers = ({ onAddUser }) => {
                     <input
                         id="username"
                         type="text"
-                        onChange={usernameChangeHandler}
-                        value={userValue.username}
+                        ref={usernameRef}
+                        // onChange={usernameChangeHandler}
+                        // value={userValue.username}
                     />
                     <label htmlFor="age">나이</label>
                     <input
                         id="age"
                         type="number"
-                        onChange={ageChangeHandler}
-                        value={userValue.age}
+                        ref={ageRef}
+                        // onChange={ageChangeHandler}
+                        // value={userValue.age}
                     />
                     <Button type="submit">가입하기</Button>
                 </form>
