@@ -4,6 +4,7 @@ import MainHeader from './components/SideEffect/MainHeader';
 import Home from './components/SideEffect/Home';
 import Login from './components/SideEffect/Login';
 
+import AuthContext from "./store/auth-context";
 
 const App = () => {
 
@@ -23,7 +24,7 @@ const App = () => {
     // side Effect 처리를 위한 함수
     // useEffect는 기본적으로 컴포넌트 랜더링시 단 한번만 호출
     useEffect(() => {
-        console.log("로그인 검사 수행");
+        // console.log("로그인 검사 수행");
         const storedLoginFlag = localStorage.getItem('login-flag');
         if(storedLoginFlag === '1'){
             setIsloggedIn(true);
@@ -36,20 +37,22 @@ const App = () => {
         localStorage.setItem('login-flag', '1');
         setIsloggedIn(true);
     };
-
+    // 로그아웃
     const logoutHandler = () => {
         localStorage.removeItem('login-flag');
         setIsloggedIn(false);
     }
 
     return (
-        <>
-            <MainHeader onLogout={logoutHandler} />
+        <AuthContext.Provider value={{
+            isLoggedIn: isLoggedIn
+        }}>
+            <MainHeader  onLogout={logoutHandler} />
             <main>
                 {isLoggedIn && <Home />}
                 {!isLoggedIn && <Login onLogin={loginHandler} />}
             </main>
-        </>
+        </AuthContext.Provider>
     );
 };
 
